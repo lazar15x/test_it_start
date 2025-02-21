@@ -1,0 +1,12 @@
+.dialog {
+  width: auto;
+  max-width: 600px;
+  padding: 20px;
+  border: none;
+  border-radius: 8px;
+  margin: auto;
+}
+
+.dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.692);
+}
