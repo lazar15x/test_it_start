@@ -3,24 +3,18 @@ import styles from './styles.module.css';
 import Modal from '../Modal/Modal';
 import { deleteData, updateData } from '../../services/Seminars';
 import { ActionType, ICardSeminar } from './type';
+import DeleteContent from '../Modal/components/DeleteContent';
+import EditContent from '../Modal/components/EditContent';
 
-const CardSeminar: React.FC<ICardSeminar> = ({
-  date,
-  description,
-  photo,
-  time,
-  title,
-  id,
-  setData,
-}) => {
+const CardSeminar: React.FC<ICardSeminar> = props => {
   /**Состояние определяющее какой потомок отрисовывать внутри модального окна */
   const [actionType, setActionType] = useState<ActionType>(null);
 
   /**Функция подтверждения удаления */
   const handleConfirmDelete = async () => {
-    await deleteData(id);
+    await deleteData(props.id);
 
-    setData(prev => prev.filter(seminar => seminar.id !== id));
+    props.setData(prev => prev.filter(seminar => seminar.id !== props.id));
     setActionType(null);
   };
 
@@ -29,10 +23,10 @@ const CardSeminar: React.FC<ICardSeminar> = ({
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const updatedSeminar = Object.fromEntries(formData.entries());
-    const responseData = await updateData(id, updatedSeminar);
+    const responseData = await updateData(props.id, updatedSeminar);
 
-    setData(prev =>
-      prev.map(seminar => (seminar.id === id ? responseData : seminar)),
+    props.setData(prev =>
+      prev.map(seminar => (seminar.id === props.id ? responseData : seminar)),
     );
     setActionType(null);
   };
@@ -55,57 +49,42 @@ const CardSeminar: React.FC<ICardSeminar> = ({
           </button>
         </div>
         <div className={styles.image}>
-          <img src={photo} alt={description} />
+          <img src={props.photo} alt={props.description} />
         </div>
         <div className={styles.bottom}>
           <div className={styles.item}>
             <span>Название: </span>
-            {title}
+            {props.title}
           </div>
           <div className={styles.item}>
             <span>Описание: </span>
-            {description}
+            {props.description}
           </div>
           <div className={styles.item}>
             <span>Дата: </span>
-            {date}
+            {props.date}
           </div>
           <div className={styles.item}>
             <span>Время: </span>
-            {time}
+            {props.time}
           </div>
         </div>
       </article>
 
       <Modal actionType={actionType}>
         {actionType === 'edit' && (
-          <>
-            <form onSubmit={handleConfirmEdit}>
-              <h2>Редактирование</h2>
-              <div className={styles.inputs}>
-                <input name="title" defaultValue={title} />
-                <input name="description" defaultValue={description} />
-                <input name="date" defaultValue={date} />
-                <input name="time" type="time" defaultValue={time} />
-                <input name="photo" defaultValue={photo} />
-              </div>
-              <div className={styles.modalFooter}>
-                <button>Сохранить</button>
-                <button onClick={() => setActionType(null)}>Отмена</button>
-              </div>
-            </form>
-          </>
+          <EditContent
+            onConfirmEdit={handleConfirmEdit}
+            setActionType={setActionType}
+            {...props}
+          />
         )}
 
         {actionType === 'delete' && (
-          <>
-            <h2>Удаление</h2>
-            <p>Вы уверены, что хотите удалить этот семинар?</p>
-            <div className={styles.modalFooter}>
-              <button onClick={handleConfirmDelete}>Удалить</button>
-              <button onClick={() => setActionType(null)}>Отмена</button>
-            </div>
-          </>
+          <DeleteContent
+            onConfirmDelete={handleConfirmDelete}
+            setActionType={setActionType}
+          />
         )}
       </Modal>
     </>

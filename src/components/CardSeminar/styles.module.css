@@ -28,12 +28,6 @@
   padding: 5px 10px;
 }
 
-.inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
 .bottom {
   padding: 6px;
 }
@@ -42,17 +36,6 @@
   max-width: 100%;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
-}
-
-.modalFooter {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.inputs input {
-  padding: 5px;
-  border-radius: 6px;
 }
 
 .item span {

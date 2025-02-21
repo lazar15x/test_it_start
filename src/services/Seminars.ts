@@ -34,10 +34,9 @@ export const updateData = async (
 // Удаляем конкретный семинар
 export const deleteData = async (id: number) => {
   try {
-    const response = await fetch(`${API_URL}/seminars/${id}`, {
+    await fetch(`${API_URL}/seminars/${id}`, {
       method: 'DELETE',
     });
-    const data = await response.json();
   } catch (error) {
     console.log('Невозможно удалить семинар');
     throw Error('Невозможно удалить семинар');
