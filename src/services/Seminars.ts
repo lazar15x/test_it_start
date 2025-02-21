@@ -1,6 +1,6 @@
-import { API_URL } from '../const';
 import { ISeminarsResponse } from '../types/Seminar';
 
+const API_URL = import.meta.env.VITE_API_URL;
 //Запрашиваем весь список семинаров
 export const fetchData = async () => {
   try {
