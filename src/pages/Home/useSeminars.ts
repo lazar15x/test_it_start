@@ -10,8 +10,7 @@ const useFetch = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await fetchData();
-        const data = await response?.json();
+        const data = await fetchData();
 
         setSeminars(data);
         console.log(data);

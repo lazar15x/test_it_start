@@ -5,7 +5,8 @@ import { ISeminarsResponse } from '../types/Seminar';
 export const fetchData = async () => {
   try {
     const response = await fetch(`${API_URL}/seminars`);
-    return response;
+    const data = await response?.json();
+    return data;
   } catch (error) {
     console.log('Невозможно получить список семинаров');
     throw Error('Невозможно получить список семинаров');
@@ -26,6 +27,7 @@ export const updateData = async (
     return data;
   } catch (error) {
     console.log('Невозможно обновить семинар');
+    throw Error('Невозможно обновить семинар');
   }
 };
 
@@ -36,8 +38,8 @@ export const deleteData = async (id: number) => {
       method: 'DELETE',
     });
     const data = await response.json();
-    return data;
   } catch (error) {
     console.log('Невозможно удалить семинар');
+    throw Error('Невозможно удалить семинар');
   }
 };
